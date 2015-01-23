@@ -1,29 +1,25 @@
 package com.nbkuk.tabapplication;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
-
     public static final String TABLE_COMMENTS = "tbl1";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TASK = "task";
     public static final String COLUMN_STATUS = "status";
-
-    //public static final String TABLE_COMMENTS = "tasks";
-    //public static final String COLUMN_COMMENT = "date";
 
     private static final String DATABASE_NAME = "tasks.db";
     private static final int DATABASE_VERSION = 1;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table " + TABLE_COMMENTS + "("
-            + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_ID + " integer primary key autoincrement not null unique, "
             + COLUMN_TASK + " text not null, "
-            + COLUMN_STATUS + " integer not null);";
-
+            + COLUMN_STATUS + " integer)";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,6 +28,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
+
+        database.execSQL("INSERT INTO " + TABLE_COMMENTS + " (" + COLUMN_TASK + ") VALUES ('Vegetables')");
+        database.execSQL("INSERT INTO " + TABLE_COMMENTS + " (" + COLUMN_TASK + ") VALUES ('Fruit')");
+        database.execSQL("INSERT INTO " + TABLE_COMMENTS + " (" + COLUMN_TASK + ") VALUES ('Chicken')");
     }
 
     @Override
@@ -43,4 +43,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public Cursor GetAllData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("select * from " + TABLE_COMMENTS + ";", null);
+        return c;
+    }
 }

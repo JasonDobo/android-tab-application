@@ -2,6 +2,7 @@ package com.nbkuk.tabapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -30,6 +31,9 @@ public class FragmentTab1 extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private TaskCursorAdapter customAdapter;
+    private MySQLiteHelper databaseHelper;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -84,41 +88,19 @@ public class FragmentTab1 extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final ListView listview = (ListView) getView().findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
+        databaseHelper = new MySQLiteHelper(getActivity());
+        Cursor cursor = databaseHelper.GetAllData();
 
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
+        customAdapter = new TaskCursorAdapter(getActivity(), cursor, 0);
 
-        final StableArrayAdapter adapter = new StableArrayAdapter(getActivity(),
-                android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
+        cursor.getCount();
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            }
-                        });
-            }
-
-        });
+        ListView listview = (ListView) getView().findViewById(R.id.listview);
+        listview.setAdapter(customAdapter);
+        databaseHelper.close();
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
