@@ -1,61 +1,43 @@
 package com.nbkuk.tabapplication;
 
-import android.app.Activity;
-import android.content.Context;
+import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentTab1.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentTab1#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentTab1 extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+public class FragmentTab1 extends Fragment implements View.OnClickListener, AdapterView.OnItemLongClickListener {
     private TaskCursorAdapter customAdapter;
     private MySQLiteHelper databaseHelper;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    //private OnFragmentInteractionListener mListener;
 
-    private OnFragmentInteractionListener mListener;
+    private Button mAddTaskButton;
+    private Button mListAddButton;
+    private Button mListTestButton;
+    private EditText mNewTaskText;
+    private ListView mListView;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment FragmentTab1.
      */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentTab1 newInstance(String param1, String param2) {
+    public static FragmentTab1 newInstance() {
         FragmentTab1 fragment = new FragmentTab1();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -66,22 +48,26 @@ public class FragmentTab1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_tab1, container, false);
-                /*View view = inflater.inflate(R.layout.tab, container, false);
-        TextView textview = (TextView) view.findViewById(R.id.tabtextview);
-        textview.setText(R.string.One);
-        return view;*/
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_fragment_tab1, container, false);
+
+        mAddTaskButton = (Button) view.findViewById(R.id.addnewtask);
+        mListAddButton = (Button) view.findViewById(R.id.listAddButton);
+        mListTestButton = (Button) view.findViewById(R.id.button2);
+        mNewTaskText = (EditText) view.findViewById(R.id.newtasktext);
+        mListView = (ListView) view.findViewById(R.id.tasklistview);
+
+        mNewTaskText.addTextChangedListener(mTextWatcher);
+        mAddTaskButton.setEnabled(false);
+        mAddTaskButton.setOnClickListener(this);
+        mListAddButton.setOnClickListener(this);
+        mListTestButton.setOnClickListener(this);
+        mListView.setOnItemLongClickListener(this);
+
+        return view;
     }
 
     @Override
@@ -89,41 +75,51 @@ public class FragmentTab1 extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         databaseHelper = new MySQLiteHelper(getActivity());
-        Cursor cursor = databaseHelper.GetAllData();
+        Cursor cursor = databaseHelper.getAllData();
 
         customAdapter = new TaskCursorAdapter(getActivity(), cursor, 0);
 
         cursor.getCount();
 
-        ListView listview = (ListView) getView().findViewById(R.id.listview);
+        ListView listview = (ListView) getView().findViewById(R.id.tasklistview);
         listview.setAdapter(customAdapter);
-        databaseHelper.close();
+        //databaseHelper.close();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.addnewtask:
+                databaseHelper.insertData(mNewTaskText.getText().toString());
+                mNewTaskText.setText("");
+                mAddTaskButton.setEnabled(false);
 
+                customAdapter.changeCursor(databaseHelper.getAllData());
+                break;
+            case R.id.listAddButton:
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                BlankFragment fragment = new BlankFragment();
+                Fragment newFragment = fragment.newInstance("Jason", "Dobo");
+                ft.add(this.getId(), newFragment);
+                ft.commit();
+
+                break;
+            case R.id.button2:
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.dialog_task);
+                dialog.setTitle("Jason Dobo");
+
+                dialog.show();
+
+                break;
         }
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            //mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.v("long clicked","pos: " + i);
+        return true;
     }
 
     /**
@@ -141,29 +137,33 @@ public class FragmentTab1 extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<String> {
-
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-        public StableArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
+    //  create a textWatcher member
+    private TextWatcher mTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
 
         @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
 
         @Override
-        public boolean hasStableIds() {
-            return true;
+        public void afterTextChanged(Editable editable) {
+            // check Fields For Empty Values
+            checkFieldsForEmptyValues();
         }
+    };
 
+    void checkFieldsForEmptyValues(){
+        Button b = (Button) getView().findViewById(R.id.addnewtask);
+
+        String s1 = mNewTaskText.getText().toString();
+
+        if(s1.equals("")){
+            b.setEnabled(false);
+        } else {
+            b.setEnabled(true);
+        }
     }
 
 }

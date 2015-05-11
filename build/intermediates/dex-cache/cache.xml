@@ -2,53 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/Users/jason.dobo/Documents/TabApplication/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jar="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/jason.dobo/Documents/TabApplication/app/build/intermediates/pre-dexed/debug/classes-367fd452d3e4bcd6a93a12d108f0dd90ccf5f5b8.jar" />
+        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/classes-4fe316d742ddc8d887207f8b51434d83740dadff.jar" />
     </item>
     <item
-        jar="/Users/jason.dobo/Documents/TabApplication/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/jason.dobo/Documents/TabApplication/app/build/intermediates/pre-dexed/debug/classes-c1126200c13adfa59c1ea91098c393784af79560.jar" />
-    </item>
-    <item
-        jar="/Users/jason.dobo/Documents/AndroidStudioProjects/TabApplication/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/jason.dobo/Documents/AndroidStudioProjects/TabApplication/app/build/intermediates/pre-dexed/debug/classes-5a0167d2b3158537a0210ee94e653c73875d9234.jar" />
-    </item>
-    <item
-        jar="/Users/jason.dobo/Documents/AndroidStudioProjects/TabApplication/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jar="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/jason.dobo/Documents/AndroidStudioProjects/TabApplication/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-d94361aaab312a628f4a309a6f1d60a93608d2c2.jar" />
-    </item>
-    <item
-        jar="/Users/jason.dobo/Documents/AndroidStudioProjects/TabApplication/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/jason.dobo/Documents/AndroidStudioProjects/TabApplication/app/build/intermediates/pre-dexed/debug/classes-5b3c99685750670fb9b752c70a13090f9a434f57.jar" />
+        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-89ce159668fca987d1f7b63d4c46b2bf6eba2971.jar" />
     </item>
     <item
         jar="/Users/jason.dobo/Development/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/jason.dobo/Documents/TabApplication/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-fefca9c4e52023fda99e3686bbdd91471e538c1a.jar" />
+        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-fefca9c4e52023fda99e3686bbdd91471e538c1a.jar" />
     </item>
     <item
-        jar="/Users/jason.dobo/Documents/TabApplication/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jar="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/jason.dobo/Documents/TabApplication/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-ba381dba6bb0f56529a88c986c17fcd22153d201.jar" />
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/classes-bc82633dd53bfc888d5f8c879b391b558f0ccdbe.jar" />
     </item>
 
 </items>

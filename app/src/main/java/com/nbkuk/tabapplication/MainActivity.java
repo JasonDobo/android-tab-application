@@ -22,8 +22,8 @@ public class MainActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        tab1 = actionBar.newTab().setText("1");
-        tab2 = actionBar.newTab().setText("2");
+        tab1 = actionBar.newTab().setText("Tasks");
+        tab2 = actionBar.newTab().setText("Notes");
 
         tab1.setTabListener(new MyTabListener(fragmentTab1));
         tab2.setTabListener(new MyTabListener(fragmentTab2));

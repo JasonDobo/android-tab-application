@@ -11,6 +11,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TASK = "task";
     public static final String COLUMN_STATUS = "status";
+    public static final String COLUMN_DATETIME = "date";
 
     private static final String DATABASE_NAME = "tasks.db";
     private static final int DATABASE_VERSION = 1;
@@ -19,7 +20,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table " + TABLE_COMMENTS + "("
             + COLUMN_ID + " integer primary key autoincrement not null unique, "
             + COLUMN_TASK + " text not null, "
-            + COLUMN_STATUS + " integer)";
+            + COLUMN_STATUS + " integer, "
+            + COLUMN_DATETIME + " integer)";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,10 +30,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
+        String s = String.valueOf(System.currentTimeMillis());
+        // TODO remove after testing
 
-        database.execSQL("INSERT INTO " + TABLE_COMMENTS + " (" + COLUMN_TASK + ") VALUES ('Vegetables')");
-        database.execSQL("INSERT INTO " + TABLE_COMMENTS + " (" + COLUMN_TASK + ") VALUES ('Fruit')");
-        database.execSQL("INSERT INTO " + TABLE_COMMENTS + " (" + COLUMN_TASK + ") VALUES ('Chicken')");
+        String cmd = "INSERT INTO " + TABLE_COMMENTS + " (" +
+                COLUMN_TASK + ", " + COLUMN_STATUS + ", " + COLUMN_DATETIME + ") VALUES (" +
+                "'Vegetables', 0, " + s + ")";
+        database.execSQL(cmd);
+
+        cmd = "INSERT INTO " + TABLE_COMMENTS + " (" +
+                COLUMN_TASK + ", " + COLUMN_STATUS + ", " + COLUMN_DATETIME + ") VALUES (" +
+                "'Fruit', 0, " + s + ")";
+        database.execSQL(cmd);
+
+        cmd = "INSERT INTO " + TABLE_COMMENTS + " (" +
+                COLUMN_TASK + ", " + COLUMN_STATUS + ", " + COLUMN_DATETIME + ") VALUES (" +
+                "'Chicken', 0, " + s + ")";
+        database.execSQL(cmd);
     }
 
     @Override
@@ -43,7 +58,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public Cursor GetAllData() {
+    public void insertData(String task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String time = String.valueOf(System.currentTimeMillis());
+
+        String cmd = "INSERT INTO " + TABLE_COMMENTS + " (" +
+                COLUMN_TASK + ", " + COLUMN_STATUS + ", " + COLUMN_DATETIME + ") VALUES (" +
+                "'" + task + "', 0, " + time + ")";
+        db.execSQL(cmd);
+    }
+
+    public Cursor getAllData() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("select * from " + TABLE_COMMENTS + ";", null);
         return c;

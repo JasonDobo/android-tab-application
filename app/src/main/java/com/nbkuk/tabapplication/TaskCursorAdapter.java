@@ -9,6 +9,9 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by jason.dobo on 21/01/2015.
  */
@@ -30,15 +33,19 @@ public class TaskCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // Find fields to populate in inflated template
-        TextView taskBody = (TextView) view.findViewById(R.id.firstLine);
-        TextView dateBody = (TextView) view.findViewById(R.id.secondLine);
+        TextView taskBody = (TextView) view.findViewById(R.id.taskLine);
+        TextView dateBody = (TextView) view.findViewById(R.id.dateLine);
         ImageView statusIMage = (ImageView) view.findViewById(R.id.icon);
 
         // Extract properties from cursor
         String body = cursor.getString(cursor.getColumnIndex("task"));
+        Boolean flag2 = (cursor.getInt(cursor.getColumnIndex("status")) == 1)? true : false;
+
+        long jason = cursor.getLong(cursor.getColumnIndex("date"));
+        String dateString = new SimpleDateFormat("dd/MM/yyyy").format(new Date(jason));
 
         taskBody.setText(body);
+        dateBody.setText(dateString);
+
     }
-
-
 }
