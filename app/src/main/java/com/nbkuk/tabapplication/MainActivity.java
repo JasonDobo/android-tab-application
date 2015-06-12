@@ -11,8 +11,10 @@ import android.view.MenuItem;
 public class MainActivity extends Activity {
     ActionBar.Tab tab1;
     ActionBar.Tab tab2;
-    Fragment fragmentTab1 = new FragmentTab1();
+    ActionBar.Tab tab3;
+    Fragment fragmentTab1 = new TaskFragmentTab();
     Fragment fragmentTab2 = new FragmentTab2();
+    Fragment fragmentTab3 = new FragmentTab1();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +26,15 @@ public class MainActivity extends Activity {
 
         tab1 = actionBar.newTab().setText("Tasks");
         tab2 = actionBar.newTab().setText("Notes");
+        tab3 = actionBar.newTab().setText("Proto");
 
         tab1.setTabListener(new MyTabListener(fragmentTab1));
         tab2.setTabListener(new MyTabListener(fragmentTab2));
+        tab3.setTabListener(new MyTabListener(fragmentTab3));
 
         actionBar.addTab(tab1);
         actionBar.addTab(tab2);
+        actionBar.addTab(tab3);
     }
 
 

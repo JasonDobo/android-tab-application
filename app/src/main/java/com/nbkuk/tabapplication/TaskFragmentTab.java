@@ -1,11 +1,9 @@
 package com.nbkuk.tabapplication;
 
-import android.app.Dialog;
-import android.app.FragmentTransaction;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,16 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-
-public class FragmentTab1 extends Fragment implements View.OnClickListener, AdapterView.OnItemLongClickListener {
+/**
+ * Created by jason.dobo on 20/05/2015.
+ */
+public class TaskFragmentTab  extends Fragment implements View.OnClickListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
     private TaskCursorAdapter customAdapter;
     private MySQLiteHelper databaseHelper;
 
-    //private OnFragmentInteractionListener mListener;
-
     private Button mAddTaskButton;
-    private Button mListAddButton;
-    private Button mListTestButton;
     private EditText mNewTaskText;
     private ListView mListView;
 
@@ -35,12 +31,12 @@ public class FragmentTab1 extends Fragment implements View.OnClickListener, Adap
      * this fragment using the provided parameters.
      * @return A new instance of fragment FragmentTab1.
      */
-    public static FragmentTab1 newInstance() {
-        FragmentTab1 fragment = new FragmentTab1();
+    public static TaskFragmentTab newInstance() {
+        TaskFragmentTab fragment = new TaskFragmentTab();
         return fragment;
     }
 
-    public FragmentTab1() {
+    public TaskFragmentTab() {
         // Required empty public constructor
     }
 
@@ -51,20 +47,17 @@ public class FragmentTab1 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fragment_tab1, container, false);
+        View view = inflater.inflate(R.layout.task_fragment_tab1, container, false);
 
-        mAddTaskButton = (Button) view.findViewById(R.id.addnewtask);
-        mListAddButton = (Button) view.findViewById(R.id.listAddButton);
-        mListTestButton = (Button) view.findViewById(R.id.button2);
+        mAddTaskButton = (Button) view.findViewById(R.id.newtaskbutton);
         mNewTaskText = (EditText) view.findViewById(R.id.newtasktext);
         mListView = (ListView) view.findViewById(R.id.tasklistview);
 
         mNewTaskText.addTextChangedListener(mTextWatcher);
         mAddTaskButton.setEnabled(false);
         mAddTaskButton.setOnClickListener(this);
-        mListAddButton.setOnClickListener(this);
-        mListTestButton.setOnClickListener(this);
         mListView.setOnItemLongClickListener(this);
+        mListView.setOnItemClickListener(this);
 
         return view;
     }
@@ -75,10 +68,9 @@ public class FragmentTab1 extends Fragment implements View.OnClickListener, Adap
 
         databaseHelper = new MySQLiteHelper(getActivity());
         Cursor cursor = databaseHelper.getAllData();
-
         customAdapter = new TaskCursorAdapter(getActivity(), cursor, 0);
 
-        cursor.getCount();
+        cursor.getCount(); // force a refresh
 
         ListView listview = (ListView) getView().findViewById(R.id.tasklistview);
         listview.setAdapter(customAdapter);
@@ -88,52 +80,35 @@ public class FragmentTab1 extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.addnewtask:
-                databaseHelper.insertData(mNewTaskText.getText().toString());
+            case R.id.newtaskbutton:
+                Cursor jason = databaseHelper.getAllData();
+                jason.moveToFirst();
+                int j = jason.getInt(0);
+                jason = databaseHelper.getData(j);
+
+                Cursor cursor = databaseHelper.getAllData();
+                cursor.moveToFirst();
+                int firstNameColIndex = cursor.getColumnIndex("_id");
+                String jasona = cursor.getString(firstNameColIndex);
+
+                FragmentManager fm = getActivity().getFragmentManager();
+                MyDialogFragment editNameDialog = MyDialogFragment.newInstance(firstNameColIndex);
+                editNameDialog.show(fm, "fragment_edit_name");
+                //databaseHelper.
+
+                /*databaseHelper.insertData(mNewTaskText.getText().toString());
                 mNewTaskText.setText("");
                 mAddTaskButton.setEnabled(false);
 
-                customAdapter.changeCursor(databaseHelper.getAllData());
-                break;
-            case R.id.listAddButton:
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                BlankFragment fragment = new BlankFragment();
-                Fragment newFragment = fragment.newInstance("Jason", "Dobo");
-                ft.add(this.getId(), newFragment);
-                ft.commit();
-
-                break;
-            case R.id.button2:
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.dialog_task);
-                dialog.setTitle("Jason Dobo");
-
-                dialog.show();
-
+                customAdapter.changeCursor(databaseHelper.getAllData());*/
                 break;
         }
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.v("long clicked","pos: " + i);
+        Log.v("long clicked", "pos: " + i);
         return true;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
     }
 
     //  create a textWatcher member
@@ -154,8 +129,7 @@ public class FragmentTab1 extends Fragment implements View.OnClickListener, Adap
     };
 
     void checkFieldsForEmptyValues(){
-        Button b = (Button) getView().findViewById(R.id.addnewtask);
-
+        Button b = (Button) getView().findViewById(R.id.newtaskbutton);
         String s1 = mNewTaskText.getText().toString();
 
         if(s1.equals("")){
@@ -165,5 +139,9 @@ public class FragmentTab1 extends Fragment implements View.OnClickListener, Adap
         }
     }
 
-}
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        String jaosn = "jason";
 
+    }
+}

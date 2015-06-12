@@ -13,6 +13,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_STATUS = "status";
     public static final String COLUMN_DATETIME = "date";
 
+    private static final String[] COLUMNS = {COLUMN_ID,COLUMN_TASK,COLUMN_STATUS,COLUMN_DATETIME};
+
     private static final String DATABASE_NAME = "tasks.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -30,23 +32,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
-        String s = String.valueOf(System.currentTimeMillis());
-        // TODO remove after testing
-
-        String cmd = "INSERT INTO " + TABLE_COMMENTS + " (" +
-                COLUMN_TASK + ", " + COLUMN_STATUS + ", " + COLUMN_DATETIME + ") VALUES (" +
-                "'Vegetables', 0, " + s + ")";
-        database.execSQL(cmd);
-
-        cmd = "INSERT INTO " + TABLE_COMMENTS + " (" +
-                COLUMN_TASK + ", " + COLUMN_STATUS + ", " + COLUMN_DATETIME + ") VALUES (" +
-                "'Fruit', 0, " + s + ")";
-        database.execSQL(cmd);
-
-        cmd = "INSERT INTO " + TABLE_COMMENTS + " (" +
-                COLUMN_TASK + ", " + COLUMN_STATUS + ", " + COLUMN_DATETIME + ") VALUES (" +
-                "'Chicken', 0, " + s + ")";
-        database.execSQL(cmd);
     }
 
     @Override
@@ -68,9 +53,41 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(cmd);
     }
 
+    public void updateData() {
+        // Get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+    }
+
+    public void deleteData() {
+
+    }
+
+    public Cursor getData(int id) {
+        // Get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Build query
+        Cursor cursor = db.query(TABLE_COMMENTS, // a. table
+                        COLUMNS, // b. column names
+                        " _id = ?", // c. selections
+                        new String[]{String.valueOf(id)}, // d. selections args
+                        null, // e. group by
+                        null, // f. having
+                        null, // g. order by
+                        null); // h. limit
+
+        // 3. if we get multiple results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        return cursor;
+    }
+
     public Cursor getAllData() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("select * from " + TABLE_COMMENTS + ";", null);
-        return c;
+        Cursor cursor = db.rawQuery("select * from " + TABLE_COMMENTS + ";", null);
+        return cursor;
     }
+
+
 }
