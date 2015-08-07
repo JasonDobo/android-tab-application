@@ -40,12 +40,14 @@ public class MyDialogFragment extends DialogFragment implements View.OnClickList
         mSubmitTaskButton = (Button) view.findViewById(R.id.button3);
         mSubmitTaskButton.setOnClickListener(this);
 
+        Bundle args = getArguments();
+
+
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically
         mEditText.requestFocus();
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return view;
     }
 

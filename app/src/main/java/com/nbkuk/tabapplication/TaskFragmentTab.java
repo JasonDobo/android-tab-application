@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-/**
- * Created by jason.dobo on 20/05/2015.
- */
-public class TaskFragmentTab  extends Fragment implements View.OnClickListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+public class TaskFragmentTab  extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private TaskCursorAdapter customAdapter;
     private MySQLiteHelper databaseHelper;
+    private Cursor mCursor;
 
     private Button mAddTaskButton;
     private EditText mNewTaskText;
@@ -56,7 +53,6 @@ public class TaskFragmentTab  extends Fragment implements View.OnClickListener, 
         mNewTaskText.addTextChangedListener(mTextWatcher);
         mAddTaskButton.setEnabled(false);
         mAddTaskButton.setOnClickListener(this);
-        mListView.setOnItemLongClickListener(this);
         mListView.setOnItemClickListener(this);
 
         return view;
@@ -67,10 +63,9 @@ public class TaskFragmentTab  extends Fragment implements View.OnClickListener, 
         super.onActivityCreated(savedInstanceState);
 
         databaseHelper = new MySQLiteHelper(getActivity());
-        Cursor cursor = databaseHelper.getAllData();
-        customAdapter = new TaskCursorAdapter(getActivity(), cursor, 0);
-
-        cursor.getCount(); // force a refresh
+        mCursor = databaseHelper.getAllData();
+        customAdapter = new TaskCursorAdapter(getActivity(), mCursor, 0);
+        mCursor.getCount(); // force a refresh
 
         ListView listview = (ListView) getView().findViewById(R.id.tasklistview);
         listview.setAdapter(customAdapter);
@@ -81,34 +76,30 @@ public class TaskFragmentTab  extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.newtaskbutton:
-                Cursor jason = databaseHelper.getAllData();
-                jason.moveToFirst();
-                int j = jason.getInt(0);
-                jason = databaseHelper.getData(j);
-
-                Cursor cursor = databaseHelper.getAllData();
-                cursor.moveToFirst();
-                int firstNameColIndex = cursor.getColumnIndex("_id");
-                String jasona = cursor.getString(firstNameColIndex);
-
-                FragmentManager fm = getActivity().getFragmentManager();
-                MyDialogFragment editNameDialog = MyDialogFragment.newInstance(firstNameColIndex);
-                editNameDialog.show(fm, "fragment_edit_name");
-                //databaseHelper.
-
-                /*databaseHelper.insertData(mNewTaskText.getText().toString());
+                String saveNewTask = mNewTaskText.getText().toString();
+                databaseHelper.insertData(saveNewTask);
                 mNewTaskText.setText("");
                 mAddTaskButton.setEnabled(false);
 
-                customAdapter.changeCursor(databaseHelper.getAllData());*/
+                mCursor = databaseHelper.getAllData();
+                customAdapter.changeCursor(mCursor);
                 break;
         }
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.v("long clicked", "pos: " + i);
-        return true;
+    public void onItemClick(AdapterView<?> var1, View var2, int position, long var4) {
+        TaskDialogFragment taskDialog = new TaskDialogFragment();
+        FragmentManager fm = getActivity().getFragmentManager();
+        Bundle args = new Bundle();
+
+        mCursor.moveToPosition(position);
+        int i = mCursor.getColumnIndex("_id");
+        int id = mCursor.getInt(i);
+        args.putInt("_id", id);
+
+        taskDialog.setArguments(args);
+        taskDialog.show(fm, "Task id " + id);
     }
 
     //  create a textWatcher member
@@ -139,9 +130,4 @@ public class TaskFragmentTab  extends Fragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String jaosn = "jason";
-
-    }
 }

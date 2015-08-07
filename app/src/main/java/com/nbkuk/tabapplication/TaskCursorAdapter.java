@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,9 +13,6 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by jason.dobo on 21/01/2015.
- */
 public class TaskCursorAdapter extends CursorAdapter {
 
     public TaskCursorAdapter(Context context, Cursor c, int flags) {
@@ -33,19 +31,19 @@ public class TaskCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // Find fields to populate in inflated template
-        TextView taskBody = (TextView) view.findViewById(R.id.taskLine);
-        TextView dateBody = (TextView) view.findViewById(R.id.dateLine);
-        ImageView statusIMage = (ImageView) view.findViewById(R.id.icon);
+        TextView taskText = (TextView) view.findViewById(R.id.taskLine);
+        TextView dateText = (TextView) view.findViewById(R.id.dateLine);
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
 
         // Extract properties from cursor
-        String body = cursor.getString(cursor.getColumnIndex("task"));
-        Boolean flag2 = (cursor.getInt(cursor.getColumnIndex("status")) == 1)? true : false;
+        String task = cursor.getString(cursor.getColumnIndex("task"));
+        Boolean status = (cursor.getInt(cursor.getColumnIndex("status")) == 1)? true : false;
 
-        long jason = cursor.getLong(cursor.getColumnIndex("date"));
-        String dateString = new SimpleDateFormat("dd/MM/yyyy").format(new Date(jason));
+        long dateLong = cursor.getLong(cursor.getColumnIndex("date"));
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date(dateLong));
 
-        taskBody.setText(body);
-        dateBody.setText(dateString);
-
+        taskText.setText(task);
+        dateText.setText(date);
+        checkBox.setChecked(status);
     }
 }

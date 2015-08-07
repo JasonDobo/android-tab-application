@@ -1,5 +1,6 @@
 package com.nbkuk.tabapplication;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -53,14 +54,35 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(cmd);
     }
 
-    public void updateData() {
+    public void updateData(int id, String task) {
         // Get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
 
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TASK, task);
+
+        // 3. updating row
+        int i = db.update(TABLE_COMMENTS, //table
+                values, // column/value
+                COLUMN_ID+" = ?", // selections
+                new String[] { String.valueOf(id) }); //selection args
+
+        // 4. close
+        db.close();
     }
 
-    public void deleteData() {
+    public void deleteData(int id) {
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        // 2. delete
+        db.delete(TABLE_COMMENTS, //table name
+                COLUMN_ID+" = ?",  // selections
+                new String[] { String.valueOf(id) }); //selections args
+
+        // 3. close
+        db.close();
     }
 
     public Cursor getData(int id) {
