@@ -2,6 +2,7 @@ package com.nbkuk.tabapplication;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class TaskFragmentTab  extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class TaskFragmentTab  extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, DialogInterface.OnDismissListener {
     private TaskCursorAdapter customAdapter;
     private MySQLiteHelper databaseHelper;
     private Cursor mCursor;
@@ -100,6 +101,8 @@ public class TaskFragmentTab  extends Fragment implements View.OnClickListener, 
 
         taskDialog.setArguments(args);
         taskDialog.show(fm, "Task id " + id);
+
+
     }
 
     //  create a textWatcher member
@@ -130,4 +133,9 @@ public class TaskFragmentTab  extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialogInterface) {
+        String jason = "Jason";
+        getActivity().startActivityForResult(getActivity().getIntent(), 10);
+    }
 }
