@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/classes-4fe316d742ddc8d887207f8b51434d83740dadff.jar" />
-    </item>
-    <item
-        jar="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-89ce159668fca987d1f7b63d4c46b2bf6eba2971.jar" />
-    </item>
-    <item
-        jar="/Users/jason.dobo/Development/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-fefca9c4e52023fda99e3686bbdd91471e538c1a.jar" />
-    </item>
-    <item
-        jar="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jar="/Users/jasondobo/code/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/jason.dobo/Development/android-tab-application/app/build/intermediates/pre-dexed/debug/classes-bc82633dd53bfc888d5f8c879b391b558f0ccdbe.jar" />
+        <dex dex="/Users/jasondobo/code/android-tab-application/app/build/intermediates/pre-dexed/debug/classes-dc931b23b875da5a20a92427451662175f913ccc.jar" />
+    </item>
+    <item
+        jar="/Users/jasondobo/Development/android-tools/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/jasondobo/code/android-tab-application/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-f157b90e107bb284f601b1d3d870d17c0d137bdb.jar" />
+    </item>
+    <item
+        jar="/Users/jasondobo/code/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/jasondobo/code/android-tab-application/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-951ece65f42ee0c0c25e930cfb4f95396e279208.jar" />
+    </item>
+    <item
+        jar="/Users/jasondobo/code/android-tab-application/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/jasondobo/code/android-tab-application/app/build/intermediates/pre-dexed/debug/classes-3d20f9d5a266d4d356cafa591d27b21fb8087a65.jar" />
     </item>
 
 </items>
